@@ -4,7 +4,7 @@ import { getTelefonos } from "@/api/telefonos"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ChevronDown, ChevronUp, Loader2, X } from "lucide-react"
+import { AlertCircle, ChevronDown, ChevronUp, Loader2, X } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 interface Item {
@@ -99,15 +99,16 @@ const ItemTable = () => {
     setFilter({ column: null, value: null })
   }
 
+
   return (
     <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 bg-wh">
         <Input
           type="text"
           placeholder="Buscar..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="max-w-sm text-black bg-white"
         />
         {filter.column && filter.value && (
           <Badge variant="secondary" className="flex items-center gap-2">
@@ -118,8 +119,8 @@ const ItemTable = () => {
           </Badge>
         )}
       </div>
-      <div className="rounded-md border">
-        <Table>
+      <div className="rounded-md border bg-white" >
+        <Table >
           <TableHeader>
             <TableRow>
               {['ID', 'Unidad', 'IP', 'Rack', 'Anterior', 'Estado', 'Piso', 'Área', 'Usuario', 'Fecha de Creación'].map((header, index) => (
@@ -137,39 +138,55 @@ const ItemTable = () => {
               ))}
             </TableRow>
           </TableHeader>
+
           <TableBody>
-            {filteredData.map((item: Item) => (
-              <TableRow key={item.id}>
-                <TableCell className="text-center">{item.id}</TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('unidad', item.unidad)}>{item.unidad}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('ip', item.ip)}>{item.ip}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('rack', item.rack)}>{item.rack}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('anterior', item.anterior)}>{item.anterior}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('estado', item.estado)}>{item.estado}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('piso', item.piso)}>{item.piso}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('area', item.area)}>{item.area}</Button>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Button variant="link" onClick={() => handleFilter('usuario', item.usuario)}>{item.usuario}</Button>
-                </TableCell>
-                <TableCell className="text-center">{formatDate(item.createdAt)}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+      {filteredData.length === 0 ? (
+        <TableRow>
+          <TableCell colSpan={10} className="h-24 text-center">
+            <div className="flex flex-col items-center justify-center text-muted-foreground">
+              <AlertCircle className="w-10 h-10 mb-2" />
+              <p className="text-lg font-medium">No se encontraron resultados</p>
+              <p className="text-sm">
+                Intenta ajustar tus filtros o realiza una nueva búsqueda
+              </p>
+            </div>
+          </TableCell>
+        </TableRow>
+      ) : (
+        filteredData.map((item: Item) => (
+          <TableRow key={item.id}>
+            <TableCell className="text-center">{item.id}</TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('unidad', item.unidad)}>{item.unidad}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('ip', item.ip)}>{item.ip}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('rack', item.rack)}>{item.rack}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('anterior', item.anterior)}>{item.anterior}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('estado', item.estado)}>{item.estado}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('piso', item.piso)}>{item.piso}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('area', item.area)}>{item.area}</Button>
+            </TableCell>
+            <TableCell className="text-center">
+              <Button variant="link" onClick={() => handleFilter('usuario', item.usuario)}>{item.usuario}</Button>
+            </TableCell>
+            <TableCell className="text-center">{formatDate(item.createdAt)}</TableCell>
+          </TableRow>
+        ))
+      )}
+    </TableBody>
         </Table>
+          
       </div>
     </div>
   )
