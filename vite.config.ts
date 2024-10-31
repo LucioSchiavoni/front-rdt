@@ -9,4 +9,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build:{
+    outDir:'dist',
+    sourcemap: false
+  },
+  server:{
+    port: 5000,
+    open: true,
+  },
+  base: '/rdt',
 })

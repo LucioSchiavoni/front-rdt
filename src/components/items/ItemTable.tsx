@@ -123,7 +123,7 @@ const ItemTable = () => {
         <Table >
           <TableHeader>
             <TableRow>
-              {['ID', 'Unidad', 'IP', 'Rack', 'Anterior', 'Estado', 'Piso', 'Área', 'Usuario', 'Fecha de Creación'].map((header, index) => (
+              {[ 'Unidad', 'IP', 'Rack', 'Anterior', 'Estado', 'Piso', 'Área', 'Usuario', 'Fecha de Creación'].map((header, index) => (
                 <TableHead key={index} className="text-center">
                   <Button
                     variant="ghost"
@@ -155,7 +155,7 @@ const ItemTable = () => {
       ) : (
         filteredData.map((item: Item) => (
           <TableRow key={item.id}>
-            <TableCell className="text-center">{item.id}</TableCell>
+            
             <TableCell className="text-center">
               <Button variant="link" onClick={() => handleFilter('unidad', item.unidad)}>{item.unidad}</Button>
             </TableCell>
