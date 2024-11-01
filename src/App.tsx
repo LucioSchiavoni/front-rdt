@@ -33,7 +33,7 @@ const AppContent = () => {
 function App() {
   return (
     <>
-      <BrowserRouter basename="/">
+      <BrowserRouter basename="/rdt">
         <AppContent />
         <ToastContainer 
           position="top-right"

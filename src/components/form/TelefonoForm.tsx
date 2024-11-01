@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { useToast } from "@/hooks/use-toast"
 import { useNavigate } from 'react-router-dom'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { toast } from 'react-toastify'
 
 const formSchema = z.object({
   ip: z.string().min(1, { message: "IP es requerida" }),
@@ -36,7 +36,6 @@ export default function TelefonoForm() {
     resolver: zodResolver(formSchema)
   })
 
-  const {toast} = useToast()
 
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -45,20 +44,11 @@ export default function TelefonoForm() {
     mutationFn: createTelefono, 
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['telefonos'] })
-      toast({
-        title: data.success,
-        description: "Teléfono creado correctamente",
-        duration: 3000,
-      })
+      toast.success(data.success)
       navigate("/dashboard")
     },
     onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.error || "Hubo un error al crear el teléfono",
-        duration: 5000,
-        variant: "destructive",
-      })
+      toast.error(error.message)
     }
   })
 
